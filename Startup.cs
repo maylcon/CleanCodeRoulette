@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OnlineBettingRoulette.Repositories.Roulette;
+using OnlineBettingRoulette.Services.Roulette;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +35,11 @@ namespace OnlineBettingRoulette
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnlineBettingRoulette", Version = "v1" });
             });
+            services.AddScoped<IRouletteRepository, RouletteRepository>();
+            services.AddScoped<IRouletteService, RouletteService>();
+            var multiplexer = ConnectionMultiplexer.Connect("localhost");
+            services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
