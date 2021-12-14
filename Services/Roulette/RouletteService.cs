@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using OnlineBettingRoulette.Dtos.Roulette;
 using OnlineBettingRoulette.Repositories.Roulette;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OnlineBettingRoulette.Services.Roulette
@@ -18,6 +20,20 @@ namespace OnlineBettingRoulette.Services.Roulette
         {
             Models.Roulette roulette = _mapper.Map<CreateRoulette, Models.Roulette>(request);
             roulette = await _repository.Create(roulette);
+            ReadRoulette dto = _mapper.Map<Models.Roulette, ReadRoulette>(roulette);
+            return dto;
+        }
+
+        public async Task<List<ReadRoulette>> GetAll()
+        {
+            var roulettes = await _repository.GetAll();
+            List<ReadRoulette> dto = _mapper.Map<List<Models.Roulette>, List<ReadRoulette>>(roulettes);
+            return dto;
+        }
+
+        public async Task<ReadRoulette> Open(Guid id)
+        {
+            var roulette = await _repository.Open(id);
             ReadRoulette dto = _mapper.Map<Models.Roulette, ReadRoulette>(roulette);
             return dto;
         }
