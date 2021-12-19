@@ -44,5 +44,10 @@ namespace OnlineBettingRoulette.Services.Roulette
             ReadRoulette dto = _mapper.Map<Models.Roulette, ReadRoulette>(roulette);
             return dto;
         }
+
+        public async Task<bool> Exist(Guid id)
+        {
+            return await _repository.Exist(id);
+        }
     }
 }

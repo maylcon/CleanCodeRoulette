@@ -78,5 +78,18 @@ namespace OnlineBettingRoulette.Repositories.Roulette
 
         }
 
+        public async Task<bool> Exist(Guid id)
+        {
+            var exist = false;
+            var database = _redis.GetDatabase();
+            var getRoulette = await database.StringGetAsync(_keyTable + id.ToString());
+            if (!getRoulette.IsNull)
+            {
+                var bytesToEntity = JsonSerializer.Deserialize<Models.Roulette>(getRoulette);
+                exist = bytesToEntity.Estado == "abierta" ? true : false;
+            }
+            return exist;
+        }
+
     }
 }

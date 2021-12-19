@@ -11,5 +11,6 @@ namespace OnlineBettingRoulette.Services.Roulette
         Task<List<ReadRoulette>> GetAll();
         Task<ReadRoulette> Open(Guid id);
         Task<ReadRoulette> Close(Guid id);
+        Task<bool> Exist(Guid id);
     }
 }
