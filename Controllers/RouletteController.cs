@@ -11,7 +11,7 @@ using System;
 namespace OnlineBettingRoulette.Controllers
 {
     [ApiController]
-    [Route("/api/roulette")]
+    [Route("/api/[controller]")]
     public class RouletteController : ControllerBase
     {
         private readonly IRouletteService _service;
@@ -41,7 +41,7 @@ namespace OnlineBettingRoulette.Controllers
             return Ok(new ApiResponse("Roulettes list.", result, 200));
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("open/{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,6 +52,22 @@ namespace OnlineBettingRoulette.Controllers
             {
                 return BadRequest(new ApiResponse("roulette not exists.", result, 400));
             }
+
+            return Ok(new ApiResponse("Roulette open.", result, 200));
+        }
+
+        [HttpPut("close/{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Close([FromRoute] Guid id)
+        {
+            ReadRoulette result = await _service.Close(id);
+            if (result == null)
+            {
+                return BadRequest(new ApiResponse("roulette is not open or is close.", result, 400));
+            }
+
 
             return Ok(new ApiResponse("Roulette open.", result, 200));
         }

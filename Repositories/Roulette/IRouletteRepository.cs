@@ -9,5 +9,6 @@ namespace OnlineBettingRoulette.Repositories.Roulette
         Task<Models.Roulette> Create(Models.Roulette entity);
         Task<List<Models.Roulette>> GetAll();
         Task<Models.Roulette> Open(Guid id);
+        Task<Models.Roulette> Close(Guid id);
     }
 }

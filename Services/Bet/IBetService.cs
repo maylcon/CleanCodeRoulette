@@ -1,6 +1,10 @@
-﻿namespace OnlineBettingRoulette.Services.Bet
+﻿using OnlineBettingRoulette.Dtos.Bet;
+using System.Threading.Tasks;
+
+namespace OnlineBettingRoulette.Services.Bet
 {
-    public class IBetService
+    public interface IBetService
     {
+        Task<ReadBet> Create(CreateBet request, string user);
     }
 }

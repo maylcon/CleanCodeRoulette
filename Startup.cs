@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OnlineBettingRoulette.Repositories.Bet;
 using OnlineBettingRoulette.Repositories.Roulette;
+using OnlineBettingRoulette.Services.Bet;
 using OnlineBettingRoulette.Services.Roulette;
 using StackExchange.Redis;
 using System;
@@ -37,6 +39,8 @@ namespace OnlineBettingRoulette
             });
             services.AddScoped<IRouletteRepository, RouletteRepository>();
             services.AddScoped<IRouletteService, RouletteService>();
+            services.AddScoped<IBetRepository, BetRepository>();
+            services.AddScoped<IBetService, BetService>();
             var multiplexer = ConnectionMultiplexer.Connect("localhost");
             services.AddSingleton<IConnectionMultiplexer>(multiplexer);
             services.AddAutoMapper(typeof(Startup));

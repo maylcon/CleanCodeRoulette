@@ -37,5 +37,12 @@ namespace OnlineBettingRoulette.Services.Roulette
             ReadRoulette dto = _mapper.Map<Models.Roulette, ReadRoulette>(roulette);
             return dto;
         }
+
+        public async Task<ReadRoulette> Close(Guid id)
+        {
+            var roulette = await _repository.Close(id);
+            ReadRoulette dto = _mapper.Map<Models.Roulette, ReadRoulette>(roulette);
+            return dto;
+        }
     }
 }

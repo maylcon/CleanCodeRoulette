@@ -58,5 +58,25 @@ namespace OnlineBettingRoulette.Repositories.Roulette
 
         }
 
+        public async Task<Models.Roulette> Close(Guid id)
+        {
+            var database = _redis.GetDatabase();
+            var getRoulette = await database.StringGetAsync(_keyTable + id.ToString());
+            if (getRoulette.IsNull)
+            {
+                return null;
+            }
+            var bytesToEntity = JsonSerializer.Deserialize<Models.Roulette>(getRoulette);
+            if (bytesToEntity.Estado == "cerrada")
+            {
+                return null;
+            }
+            bytesToEntity.Estado = "cerrada";
+            var entityToBytes = JsonSerializer.SerializeToUtf8Bytes(bytesToEntity);
+            await database.StringSetAsync(_keyTable + bytesToEntity.Id, entityToBytes);
+            return bytesToEntity;
+
+        }
+
     }
 }
