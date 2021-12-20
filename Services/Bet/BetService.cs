@@ -17,11 +17,10 @@ namespace OnlineBettingRoulette.Services.Bet
 
         public async Task<ReadBet> Create(CreateBet request, string user)
         {
-            ReadBet readBet = _mapper.Map<CreateBet, ReadBet>(request);
-            readBet.User = user;
-            Models.Bet bet = _mapper.Map<ReadBet, Models.Bet>(readBet);
+            Models.Bet bet = _mapper.Map<CreateBet, Models.Bet>(request);
+            bet.User = user;
             bet = await _repository.Create(bet);
-            readBet = _mapper.Map<Models.Bet, ReadBet>(bet);
+            var readBet = _mapper.Map<Models.Bet, ReadBet>(bet);
             return readBet;
         }
     }
