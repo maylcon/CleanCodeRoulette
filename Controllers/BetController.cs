@@ -43,7 +43,7 @@ namespace OnlineBettingRoulette.Controllers
                 return Created("/api/v1/projects" + result.Id, new ApiResponse("Bet created.", result, 201));
             }
 
-            return BadRequest(new ApiResponse("unrealized bet.", null, 400));
+            return BadRequest(new ApiResponse("unrealized bet. Roulette is not open or not exist.", null, 400));
 
         }
     }
