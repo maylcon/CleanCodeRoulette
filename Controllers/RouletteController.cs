@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoWrapper.Wrappers;
 using System.Collections.Generic;
 using System;
+using OnlineBettingRoulette.Services.Bet;
 
 namespace OnlineBettingRoulette.Controllers
 {
@@ -15,13 +16,15 @@ namespace OnlineBettingRoulette.Controllers
     public class RouletteController : ControllerBase
     {
         private readonly IRouletteService _service;
+        private readonly IBetService _serviceBet;
 
-        public RouletteController(IRouletteService service)
+        public RouletteController(IRouletteService service, IBetService serviceBet)
         {
             _service = service;
+            _serviceBet = serviceBet;
         }
 
-        [HttpPost()]
+        [HttpPost("create")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -31,7 +34,7 @@ namespace OnlineBettingRoulette.Controllers
             return Created("/api/v1/projects" + result.Id, new ApiResponse("Roulette created.", result, 201));
         }
 
-        [HttpGet()]
+        [HttpGet("getall")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,11 +68,11 @@ namespace OnlineBettingRoulette.Controllers
             ReadRoulette result = await _service.Close(id);
             if (result == null)
             {
-                return BadRequest(new ApiResponse("roulette is not open or is close.", result, 400));
+                return BadRequest(new ApiResponse("roulette is not open or not exist.", result, 400));
             }
+            var listWin = await _serviceBet.Close(id);
 
-
-            return Ok(new ApiResponse("Roulette open.", result, 200));
+            return Ok(new ApiResponse("Roulette close.", listWin, 200));
         }
     }
 }

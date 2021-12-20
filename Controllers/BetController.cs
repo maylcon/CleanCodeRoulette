@@ -23,7 +23,7 @@ namespace OnlineBettingRoulette.Controllers
             _serviceRoulette = serviceRoulette;
         }
 
-        [HttpPost()]
+        [HttpPost("create")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
